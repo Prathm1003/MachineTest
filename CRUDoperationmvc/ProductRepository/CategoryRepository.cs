@@ -1,15 +1,14 @@
-﻿using CRUDoperationmvc.Models;
+﻿using CRUDoperationmvc.Models.Models_cat;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace CRUDoperationmvc.ProductRepository
+namespace CRUDoperationmvc.ProductRepository.Category_Repository
 {
-    public class ProductRespository
+    public class CategoryRepository
     {
         private SqlConnection con;
         //To Handle connection related activities    
@@ -20,14 +19,14 @@ namespace CRUDoperationmvc.ProductRepository
 
         }
         //To Add Employee details    
-        public bool AddProduct(ProductModel obj)
+        public bool AddCategory(CategoryModel obj)
         {
 
             connection();
-            SqlCommand com = new SqlCommand("AddNewProduct", con);
+            SqlCommand com = new SqlCommand("AddCategory", con);
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@ProductName", obj.ProductName);
-            
+            com.Parameters.AddWithValue("@CategoryID", obj.CategoryID);
+            com.Parameters.AddWithValue("@CategoryName", obj.CategoryName);
 
             con.Open();
             int i = com.ExecuteNonQuery();
@@ -47,13 +46,13 @@ namespace CRUDoperationmvc.ProductRepository
 
         }
         //To view employee details with generic list     
-        public List<ProductModel> GetAllProduct()
+        public List<CategoryModel> GetAllCategory()
         {
             connection();
-            List<ProductModel> ProductList = new List<ProductModel>();
+            List<CategoryModel> ProductList = new List<CategoryModel>();
 
 
-            SqlCommand com = new SqlCommand("GetProduct", con);
+            SqlCommand com = new SqlCommand("GetCategory", con);
             com.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter(com);
             DataTable dt = new DataTable();
@@ -67,12 +66,12 @@ namespace CRUDoperationmvc.ProductRepository
 
                 ProductList.Add(
 
-                    new ProductModel
+                    new CategoryModel
                     {
 
-                        ProductID = Convert.ToInt32(dr["ProductId"]),
-                        ProductName = Convert.ToString(dr["ProductName"]),
-                        
+                       
+                        CategoryID = Convert.ToInt32(dr["CategoryID"]),
+                        CategoryName = Convert.ToString(dr["CategoryName"])
 
                     }
                     );
@@ -81,16 +80,16 @@ namespace CRUDoperationmvc.ProductRepository
             return ProductList;
         }
         //To Update Employee details    
-        public bool UpdateProduct(ProductModel obj)
+        public bool UpdateCategory(CategoryModel obj)
         {
 
             connection();
-            SqlCommand com = new SqlCommand("UpdateProduct", con);
+            SqlCommand com = new SqlCommand("UpdateCategory", con);
 
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@ProductID", obj.ProductID);
-            com.Parameters.AddWithValue("@ProductName", obj.ProductName);
            
+            com.Parameters.AddWithValue("@CategoryID", obj.CategoryID);
+            com.Parameters.AddWithValue("@CategoryName", obj.CategoryName);
             con.Open();
             int i = com.ExecuteNonQuery();
             con.Close();
@@ -105,14 +104,14 @@ namespace CRUDoperationmvc.ProductRepository
             }
         }
         //To delete Employee details    
-        public bool DeleteProduct(int Id)
+        public bool DeleteCategory(int Id)
         {
 
             connection();
-            SqlCommand com = new SqlCommand("DeleteproById", con);
+            SqlCommand com = new SqlCommand("DeleteCatById", con);
 
             com.CommandType = CommandType.StoredProcedure;
-            com.Parameters.AddWithValue("@ProductId", Id);
+            com.Parameters.AddWithValue("@CategoryId", Id);
 
             con.Open();
             int i = com.ExecuteNonQuery();
@@ -129,3 +128,5 @@ namespace CRUDoperationmvc.ProductRepository
         }
     }
 }
+
+    
