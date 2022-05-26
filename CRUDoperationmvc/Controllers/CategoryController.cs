@@ -1,24 +1,23 @@
-﻿using System;
+﻿using CRUDoperationmvc.Models.Models_cat;
+using CRUDoperationmvc.ProductRepository.Category_Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CRUDoperationmvc.Models;
-using CRUDoperationmvc.ProductRepository;
 
-namespace CRUDoperationmvc.Controllers
+namespace CRUDoperationmvc.Controllers.Controllers_cat
 {
-    public class ProductController : Controller
+    public class CategoryController : Controller
     {
-        // GET: Product
-        public ActionResult GetAllProductDetails(int? page)
+        public ActionResult GetAllCategoryDetails(int? page)
         {
             int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
             //return View(this.allProducts.ToPagedList(currentPageIndex, DefaultPageSize));
-            ProductRespository ProRepo = new ProductRespository();
+            CategoryRepository ProRepo = new CategoryRepository();
             ModelState.Clear();
-            return View(ProRepo.GetAllProduct());
-           // return View();
+            return View(ProRepo.GetAllCategory());
+            // return View();
         }
 
         //// GET: Product/Details/5
@@ -33,24 +32,24 @@ namespace CRUDoperationmvc.Controllers
         //    return View();
         //}
 
-        public ActionResult AddProduct()
+        public ActionResult AddCategory()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddProduct(ProductModel Pro)
+        public ActionResult AddCategory(CategoryModel Pro)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    ProductRespository EmpRepo = new ProductRespository();
+                    CategoryRepository EmpRepo = new CategoryRepository();
 
-                    if (EmpRepo.AddProduct(Pro))
+                    if (EmpRepo.AddCategory(Pro))
                     {
-                        ViewBag.Message = "Product details added successfully";
-                        return RedirectToAction("GetAllProductDetails");
+                        ViewBag.Message = "Category details added successfully";
+                        return RedirectToAction("GetAllCategoryDetails");
                     }
                 }
 
@@ -79,22 +78,22 @@ namespace CRUDoperationmvc.Controllers
         //}
 
         //// GET: Product/Edit/5
-        public ActionResult EditProDetails(int id)
+        public ActionResult EditCatDetails(int id)
         {
-            ProductRespository ProRepo = new ProductRespository();
-            return View(ProRepo.GetAllProduct().Find(Pro => Pro.ProductID == id));
+            CategoryRepository ProRepo = new CategoryRepository();
+            return View(ProRepo.GetAllCategory().Find(Pro => Pro.CategoryID == id));
         }
 
         // POST: Product/Edit/5
         [HttpPost]
-        public ActionResult EditProDetails(int id, ProductModel collection)
+        public ActionResult EditCatDetails(int id, CategoryModel collection)
         {
             try
             {
-                ProductRespository ProRepo = new ProductRespository();
+                CategoryRepository ProRepo = new CategoryRepository();
 
-                ProRepo.UpdateProduct(collection);
-                return RedirectToAction("GetAllProductDetails");
+                ProRepo.UpdateCategory(collection);
+                return RedirectToAction("GetAllCategoryDetails");
             }
             catch
             {
@@ -112,17 +111,17 @@ namespace CRUDoperationmvc.Controllers
         // POST: Product/Delete/5
 
         [HttpPost]
-        public ActionResult DeleteProduct(int id)
+        public ActionResult DeleteCategory(int id)
         {
             try
             {
-                ProductRespository ProRepo = new ProductRespository();
-                if (ProRepo.DeleteProduct(id))
+                CategoryRepository ProRepo = new CategoryRepository();
+                if (ProRepo.DeleteCategory(id))
                 {
-                    ViewBag.AlertMsg = "Product details deleted successfully";
+                    ViewBag.AlertMsg = "Category details deleted successfully";
 
                 }
-                return RedirectToAction("GetAllProductDetails");
+                return RedirectToAction("GetAllCategoryDetails");
 
             }
             catch
@@ -132,3 +131,4 @@ namespace CRUDoperationmvc.Controllers
         }
     }
 }
+    
